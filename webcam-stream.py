@@ -1,8 +1,9 @@
 from flask import Flask, render_template, Response
 import cv2
+from datetime import datetime
 
 app = Flask(__name__)
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(1)  
 
 def generate_frames():
     while True:
@@ -17,14 +18,11 @@ def generate_frames():
 
 @app.route('/')
 def index():
-    return '''
-    <html>
-        <body>
-            <h1>Live Camera</h1>
-            <img src="/video_feed" width="800" />
-        </body>
-    </html>
-    '''
+    now = datetime.now()
+    return render_template('index.html',
+                           time=now.strftime("%H:%M:%S"),
+                           date=now.strftime("%A, %d %B %Y"),
+                           username="ANDREW")
 
 @app.route('/video_feed')
 def video_feed():

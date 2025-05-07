@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Kamera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .camera-container {
+            position: relative;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .logo {
+            position: absolute;
+            top: -40px;
+            right: -130px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .video {
+            border: 2px solid #ccc;
+        }
+
+        .info-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .info-box {
+            padding: 10px 20px;
+            border: 2px solid orange;
+            color: orange;
+            font-weight: bold;
+            border-radius: 5px;
+            min-width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="camera-container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='assets/Logo Euro HD.png') }}" alt="Logo CEC" style="width: 80px; height: 80px; object-fit: contain;">
+        </div>
+        <img src="/video_feed" class="video" width="640" height="480">
+    </div>
+
+    <div class="info-bar">
+        <div class="info-box" id="timeBox">Jam/Waktu:<br><span id="clock">--:--:--</span></div>
+        <div class="info-box" id="dateBox">Hari Tanggal:<br><span id="date">--</span></div>
+        <div class="info-box">Username:<br>{{ username }}</div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('id-ID');
+            const date = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            document.getElementById('clock').textContent = time;
+            document.getElementById('date').textContent = date;
+        }
+
+        setInterval(updateTime, 1000); // update setiap detik
+        updateTime(); // jalankan pertama kali
+    </script>
+</body>
+</html>
